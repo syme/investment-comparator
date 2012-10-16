@@ -21,6 +21,8 @@ public class App {
 
         LOG.error("error...");
         LOG.info("infoo...");
+        ;
+        ;
 
         final ZseExcelExtractor z = new ZseExcelExtractor();
         z.listStockTrade(new File("c:\\\\ptkm.xlsx"));
