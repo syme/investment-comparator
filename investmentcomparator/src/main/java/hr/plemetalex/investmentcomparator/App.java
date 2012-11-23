@@ -1,5 +1,6 @@
 package hr.plemetalex.investmentcomparator;
 
+import hr.plemetalex.investmentcomparator.service.GoldOrgExcelExtractor;
 import hr.plemetalex.investmentcomparator.service.ZseExcelExtractor;
 
 import java.io.File;
@@ -17,14 +18,12 @@ public class App {
 
     public static void main(final String[] args) {
 
-        System.out.println("Hello World!...");
-
-        LOG.error("error...");
-        LOG.info("infoo...");
-        ;
-        ;
+        LOG.info("Hello.");
 
         final ZseExcelExtractor z = new ZseExcelExtractor();
-        z.listStockTrade(new File("c:\\\\ptkm.xlsx"));
+        // z.listStockTrade(new File("c:\\\\ptkm.xlsx"));
+
+        final GoldOrgExcelExtractor ge = new GoldOrgExcelExtractor();
+        ge.listStockTrade(new File("c:\\\\gold_prices.xls"));
     }
 }

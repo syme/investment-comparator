@@ -1,6 +1,7 @@
 package hr.plemetalex.investmentcomparator.service;
 
-import hr.plemetalex.investmentcomparator.domain.StockTrade;
+import hr.plemetalex.investmentcomparator.domain.SecurityTrade;
+import hr.plemetalex.investmentcomparator.service.def.StockTradeExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,19 +18,19 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ZseExcelExtractor {
+public class ZseExcelExtractor implements StockTradeExtractor {
 
     static final String ZSE_HEADER_START = "ZSE - podaci o vrijednosnici";
 
     static final Logger LOG              = LoggerFactory.getLogger(ZseExcelExtractor.class);
 
-    public List<StockTrade> listStockTrade(final File p_excelFile) {
-        final List<StockTrade> l = new ArrayList<StockTrade>();
+    public List<SecurityTrade> listStockTrade(final File p_file) {
+        final List<SecurityTrade> l = new ArrayList<SecurityTrade>();
 
         Workbook wb = null;
 
         try {
-            wb = WorkbookFactory.create(p_excelFile);
+            wb = WorkbookFactory.create(p_file);
             final FormulaEvaluator fe = wb.getCreationHelper().createFormulaEvaluator();
 
             final Sheet sheet = wb.getSheetAt(0);

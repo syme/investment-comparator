@@ -1,6 +1,9 @@
 package hr.plemetalex.investmentcomparator.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -73,10 +76,33 @@ public class PoiUtils {
 
         if (cellValue != null) {
             if (Cell.CELL_TYPE_NUMERIC == cellValue.getCellType()) {
-                return new BigDecimal(Double.valueOf(cellValue.getNumberValue()).toString());
+                final BigDecimal bdRaw = new BigDecimal(Double.valueOf(cellValue.getNumberValue()).toString());
+                return bdRaw.setScale(2, BigDecimal.ROUND_HALF_UP);
             }
             else {
                 return tryToExtractPrice(getCellStringValue(p_cell, p_fe), null, null);
+            }
+        }
+
+        return null;
+
+    }
+
+    public static Date getDate(final Cell p_cell, final FormulaEvaluator p_fe, final String p_pattern) {
+
+        if (p_cell == null) {
+            return null;
+        }
+
+        final CellValue cellValue = p_fe.evaluate(p_cell);
+
+        if (cellValue != null) {
+            final SimpleDateFormat sdf = new SimpleDateFormat(p_pattern);
+            try {
+                final Date d = sdf.parse(cellValue.getStringValue());
+                return d;
+            } catch (final ParseException e) {
+                LOG.warn("Couldn't parse date:'" + cellValue.getStringValue() + "', pattern:" + p_pattern);
             }
         }
 
@@ -112,7 +138,7 @@ public class PoiUtils {
         try {
             return new BigDecimal(cijenaStr);
         } catch (final NumberFormatException e) {
-            LOG.warn("Nisam uspio izvući cijenu(brojku) iz stringa: '" + cijenaStr + "'");
+            LOG.warn("Nisam uspio izvući BigDecimal iz Stringa: '" + cijenaStr + "'");
             return null;
         }
 

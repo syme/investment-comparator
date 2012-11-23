@@ -1,12 +1,14 @@
 package hr.plemetalex.investmentcomparator.domain;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.Date;
 
-public class StockTrade {
+public class SecurityTrade {
 
-    private Stock      m_stock;
+    private Security   m_security;
     private Date       m_date;
+    private Currency   m_currency;
     private BigDecimal m_closingPrice;
     private BigDecimal m_openingPrice;
     private BigDecimal m_maxPrice;
@@ -16,12 +18,12 @@ public class StockTrade {
     private BigDecimal m_volume;
     private BigDecimal m_stockCount;
 
-    public Stock getStock() {
-        return m_stock;
+    public Security getSecurity() {
+        return m_security;
     }
 
-    public void setStock(final Stock p_stock) {
-        m_stock = p_stock;
+    public void setSecurity(final Security p_security) {
+        m_security = p_security;
     }
 
     public Date getDate() {
@@ -94,6 +96,14 @@ public class StockTrade {
 
     public void setStockCount(final BigDecimal p_stockCount) {
         m_stockCount = p_stockCount;
+    }
+
+    public Currency getCurrency() {
+        return m_currency;
+    }
+
+    public void setCurrency(final Currency p_currency) {
+        m_currency = p_currency;
     }
 
 }
