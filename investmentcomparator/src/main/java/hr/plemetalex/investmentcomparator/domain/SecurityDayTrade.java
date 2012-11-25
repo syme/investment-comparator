@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Date;
 
-public class SecurityTrade {
+public class SecurityDayTrade {
 
     private Security   m_security;
     private Date       m_date;
@@ -17,6 +17,14 @@ public class SecurityTrade {
     private Integer    m_txCount;
     private BigDecimal m_volume;
     private BigDecimal m_stockCount;
+
+    public SecurityDayTrade(final Security p_security, final Date p_date, final Currency p_currency, final BigDecimal p_closingPrice) {
+        super();
+        m_security = p_security;
+        m_date = p_date;
+        m_currency = p_currency;
+        m_closingPrice = p_closingPrice;
+    }
 
     public Security getSecurity() {
         return m_security;

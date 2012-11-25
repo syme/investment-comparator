@@ -1,8 +1,8 @@
 package hr.plemetalex.investmentcomparator.service;
 
 import hr.plemetalex.investmentcomparator.domain.Commodity;
-import hr.plemetalex.investmentcomparator.domain.SecurityTrade;
-import hr.plemetalex.investmentcomparator.service.def.StockTradeExtractor;
+import hr.plemetalex.investmentcomparator.domain.SecurityDayTrade;
+import hr.plemetalex.investmentcomparator.service.def.SecurityTradeExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,12 +21,12 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GoldOrgExcelExtractor implements StockTradeExtractor {
+public class GoldOrgExcelExtractor implements SecurityTradeExtractor {
 
     static final Logger LOG = LoggerFactory.getLogger(GoldOrgExcelExtractor.class);
 
-    public List<SecurityTrade> listStockTrade(final File p_file) {
-        final List<SecurityTrade> l = new ArrayList<SecurityTrade>();
+    public List<SecurityDayTrade> listStockTrade(final File p_file) {
+        final List<SecurityDayTrade> l = new ArrayList<SecurityDayTrade>();
 
         Workbook wb = null;
 
@@ -36,9 +36,6 @@ public class GoldOrgExcelExtractor implements StockTradeExtractor {
 
             final Sheet sheet = wb.getSheet("Daily");
 
-            final String header = PoiUtils.getCellStringValue(sheet.getRow(0).getCell(0), fe);
-            final String ticker = null;
-
             for (int i = 9; i < 200 /* sheet.getLastRowNum() */; i++) {
                 final Row r = sheet.getRow(i);
 
@@ -47,14 +44,9 @@ public class GoldOrgExcelExtractor implements StockTradeExtractor {
                     final Date d = r.getCell(3).getDateCellValue();
 
                     if (price != null && d != null) {
-                        final SecurityTrade st = new SecurityTrade();
-                        st.setClosingPrice(price);
-                        st.setCurrency(Currency.getInstance("USD"));
-                        st.setSecurity(Commodity.GOLD);
-                        st.setDate(d);
+                        final SecurityDayTrade st = new SecurityDayTrade(Commodity.GOLD, d, Currency.getInstance("USD"), price);
                         l.add(st);
                     }
-                    LOG.info(price != null ? d + " " + price.toString() : null);
                 }
 
             }

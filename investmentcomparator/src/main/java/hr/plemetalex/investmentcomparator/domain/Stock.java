@@ -2,30 +2,35 @@ package hr.plemetalex.investmentcomparator.domain;
 
 import java.io.Serializable;
 
-public class Stock implements Serializable {
+public class Stock extends Security implements Serializable {
 
     private static final long serialVersionUID = 7855703899284065782L;
 
     private String            m_ticker;
     private String            m_name;
-    private String            m_market;
+    private Market            m_market;
 
     public Stock(final String p_ticker) {
         super();
         m_ticker = p_ticker;
     }
 
-    public Stock(final String p_ticker, final String p_market) {
+    public Stock(final String p_ticker, final Market p_market) {
         super();
         m_ticker = p_ticker;
         m_market = p_market;
     }
 
-    public Stock(final String p_ticker, final String p_name, final String p_market) {
+    public Stock(final String p_ticker, final String p_name, final Market p_market) {
         super();
         m_ticker = p_ticker;
         m_name = p_name;
         m_market = p_market;
+    }
+
+    @Override
+    public String toString() {
+        return m_ticker + "(" + m_market + ")";
     }
 
     public String getTicker() {
@@ -44,11 +49,11 @@ public class Stock implements Serializable {
         m_name = p_name;
     }
 
-    public String getMarket() {
+    public Market getMarket() {
         return m_market;
     }
 
-    public void setMarket(final String p_market) {
+    public void setMarket(final Market p_market) {
         m_market = p_market;
     }
 
