@@ -4,7 +4,7 @@ import hr.plemetalex.investmentcomparator.domain.Security;
 import hr.plemetalex.investmentcomparator.domain.SecurityDayTrade;
 import hr.plemetalex.investmentcomparator.service.GoldOrgExcelExtractor;
 import hr.plemetalex.investmentcomparator.service.PlemetalexUtils;
-import hr.plemetalex.investmentcomparator.service.SecurityTradeAggregator;
+import hr.plemetalex.investmentcomparator.service.SecurityTradeService;
 import hr.plemetalex.investmentcomparator.service.ZseExcelExtractor;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class App {
         final GoldOrgExcelExtractor ge = new GoldOrgExcelExtractor();
         final List<SecurityDayTrade> l_gold = ge.listStockTrade(new File("c:\\\\gold_prices2.xls"));
 
-        final SortedMap<Date, Map<Security, SecurityDayTrade>> map = SecurityTradeAggregator.aggregateSecurityTrade(l_ptkm, l_gold);
+        final SortedMap<Date, Map<Security, SecurityDayTrade>> map = SecurityTradeService.aggregateSecurityTrade(l_ptkm, l_gold);
 
         for (final Entry<Date, Map<Security, SecurityDayTrade>> e : map.entrySet()) {
             LOG.info("Date:" + PlemetalexUtils.SDF_DD_MM_YYYY.format(e.getKey()));
@@ -43,6 +43,8 @@ public class App {
                 LOG.info("Security:" + es.getValue().getSecurity() + ", value:" + es.getValue().getClosingPrice());
             }
         }
+
+        SecurityTradeService.writeSecurityTradeMapToExcel(map);
 
     }
 }
